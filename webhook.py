@@ -8,7 +8,7 @@ import os
 app = Flask(__name__)
 port = 5555
 secret = "HUEVOS"
-repo_path = "/home/pablito/gitHub/meugpt"
+repo_path = "/home/pablito/gitHub/meugpt/meu_gpt"
 branch = "refs/heads/main"
 # systemctl_svc_name = 'webcripto'
 
@@ -31,32 +31,33 @@ def github_webhook():
             print("Saida do git pull:", result.stdout.decode())
             print("Erro do git pull:", result.stderr.decode())
 
-            #            try:
-            #                with open(os.path.join(repo_path, "webhook_received.txt"), "w") as f:
-            #                    f.write("Webhook recebido com sucesso!")
-            #                print("Arquivo 'webhook_received.txt' criado com sucesso.")
-            #            except Exception as e:
-            #                print(f"Erro ao criar o arquivo: {e}")
-
             try:
-                subprocess.run(
-                    [
-                        "ps",
-                        "aux",
-                        "|",
-                        "grep",
-                        "flask",
-                        "|",
-                        "awk",
-                        "'{print $2}'",
-                        "|",
-                        "kill",
-                    ]
-                )
-                subprocess.run(["python3", "/home/pablito/gitHub/meugpt/app.py"])
-                print(f"Servico reiniciado com sucesso.")
+                with open(os.path.join(repo_path, "webhook_received.txt"), "w") as f:
+                    f.write("Webhook recebido com sucesso!")
+                print("Arquivo 'webhook_received.txt' criado com sucesso.")
             except Exception as e:
-                print(f"Erro ao reiniciar o servico: {e}")
+                print(f"Erro ao criar o arquivo: {e}")
+
+#            try:
+#                subprocess.run(
+#                    [
+#                        "ps",
+#                        "aux",
+#                        "|",
+#                        "grep",
+#                        "flask",
+#                        "|",
+#                        "awk",
+#                        "'{print $2}'",
+#                        "|",
+#                        "kill",
+#                    ]
+#                )
+#		app_file = repo_pah + "/app.py"
+#                subprocess.run(["python3", "/home/pablito/gitHub/meugpt/meu_gpt/app.py"])
+#                print(f"Servico reiniciado com sucesso.")
+            except Exception as e:
+                print(f"Erro  {e}")
 
         return "Webhook recebido com sucesso!", 200
     except Exception as e:
