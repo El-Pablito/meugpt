@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h2>No que posso ajudar hoje?</h2>
+{% if response %}
+<p>{{ response }}</p>
+<a href="/">Voltar</a>
+{% endif %}
+
+<form method="post">
+  Mensagem do Sistema: <input type="text" name="system_message" value="Você é um assistente útil."><br>
+  Mensagem do Usuário: <input type="text" name="user_message" value="Me fale sobre o universo."><br>
+  <input type="submit" value="Enviar">
+</form>
+</body>
+</html>

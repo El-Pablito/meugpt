@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h2>Chat com GPT</h2>
+{% for message in messages %}
+    <p><b>{{ message.role }}:</b> {{ message.content }}</p>
+{% endfor %}
+<form method="post">
+    Sua mensagem: <input type="text" name="user_message">
+    <input type="submit" value="Enviar">
+</form>
+</body>
+</html>

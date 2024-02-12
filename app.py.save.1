@@ -1,0 +1,35 @@
+from flask import Flask, request, render_template, session
+from flask_session import Session
+from openai import OpenAI
+import os
+
+app = Flask(__name__)
+app.config["SECRET_KEY"] ="3d9266780d253baf9a449d9ecc489b17"
+app.config["SESSION_TYPE"] = "filesystem"
+Session(app)
+
+client = OpenAI(
+    api_key="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",
+    organization=
+)
+
+@app.route("/", methods=["GET", "POST"])
+def home():
+    if request.method == "POST":
+        user_message = request.form["user_message"]
+        if "messages" not in session:
+            session["messages"] = []
+        session["messages"].append({"role": "user", "content": user_message})
+        
+        # Adicione a chamada à API da OpenAI aqui para obter a resposta
+        response = client.chat.completions.create(model="gpt-3.5-turbo",
+        messages=session["messages"])
+        
+        # Atualize session["messages"] com a resposta da OpenAI
+        session["messages"].append({"role": "assistant", "content": response.choices[0].message.content})
+        session.modified = True
+
+    return render_template("chat.html", messages=session.get("messages", []))
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", debug=True)
